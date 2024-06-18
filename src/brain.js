@@ -2,8 +2,6 @@
 import nrrdBrain from "../assets/DAS-T1-study-1-series-3-masked.nrrd";
 import nrrdSkull from "../assets/DAS-T1-study-1-series-3-skull.nrrd";
 
-import apiKey from "../apiKey.js";
-
 const { Model, View, App, Messenger, Session } = Croquet;
 const THREE = require("three");
 window.THREE = THREE;
@@ -503,7 +501,12 @@ if (volume.max !== 1 || volume.min !== 0) {
                 const texture = new THREE.DataTexture3D(volume.data, xl, yl, zl);
                 texture.format = THREE.RedFormat;
                 texture.type = THREE.FloatType;
-                texture.minFilter = texture.magFilter = THREE.LinearFilter;
+                // need to check if linear filtering is actually available
+                // because otherwise we don't see anything (e.g. on iOS)
+                const isLinearFilteringAvailable = context.getExtension('OES_texture_float_linear');
+                if (isLinearFilteringAvailable) {
+                   texture.minFilter = texture.magFilter = THREE.LinearFilter;
+                }
                 texture.unpackAlignment = 1;
                 texture.needsUpdate = true;
 
@@ -1018,7 +1021,7 @@ async function go() {
     App.makeWidgetDock();
 
     const session = await Session.join({
-        apiKey,
+        apiKey: '1_i65fcn11n7lhrb5n890hs3dhj11hfzfej57pvlrx',
         appId: "io.croquet.brain",
         name: App.autoSession(),
         password: App.autoPassword(),

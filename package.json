@@ -28,7 +28,7 @@
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-import-resolver-parcel": "^1.10.6",
     "eslint-plugin-import": "^2.23.4",
-    "parcel": "^2.1.1",
+    "parcel": "^2.11.0",
     "parcel-plugin-clean-dist": "0.0.6"
   }
 }
